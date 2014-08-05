@@ -39,21 +39,26 @@ Options:
 
   stored_scroll_position = null;
 
+  // strech images larger than viewport
   resizeImage = function() {
     var image;
     image = images[current_image];
     if (image.ratio == null) {
       image.ratio = (image.naturalHeight / image.naturalWidth).toFixed(2);
     }
-    if ($(window).height() / image.ratio > $(window).width()) {
-      $(image).width($(window).width());
-      $(image).height($(window).width() * image.ratio);
-      return $(image).css('margin-top', ($(window).height() - $(image).height()) / 2);
-    } else {
-      $(image).height($(window).height());
-      $(image).width($(window).height() / image.ratio);
-      return $(image).css('margin-top', 0);
-    }
+	if (image.naturalHeight > $(window).height() || image.naturalWidth > $(window).width()) {
+		if ($(window).height() / image.ratio > $(window).width()) {
+		  $(image).width($(window).width());
+		  $(image).height($(window).width() * image.ratio);
+		  return $(image).css('margin-top', ($(window).height() - $(image).height()) / 2);
+		} else {
+		  $(image).height($(window).height());
+		  $(image).width($(window).height() / image.ratio);
+		  return $(image).css('margin-top', 0);
+		} 
+	} else {
+	return $(image).css('margin-top', ($(window).height() - image.naturalHeight) / 2);
+	}
   };
 
   keyPressed = function(e) {
